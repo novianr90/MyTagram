@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
+	//
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -35,9 +35,9 @@ func init() {
 
 	db, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
 
-	if err = godotenv.Load(); err != nil {
-		panic(err)
-	}
+	// if err = godotenv.Load(); err != nil {
+	// 	panic(err)
+	// }
 
 	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{})
 }
