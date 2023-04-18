@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -19,15 +18,15 @@ var (
 
 func init() {
 
-	var (
-		host     = os.Getenv("DB_HOST")
-		port     = os.Getenv("DB_PORT")
-		username = os.Getenv("DB_USERNAME")
-		password = os.Getenv("DB_PASSWORD")
-		dbName   = os.Getenv("DB_NAME")
-	)
+	// var (
+	// 	host     = os.Getenv("PGHOST")
+	// 	port     = os.Getenv("PGPORT")
+	// 	username = os.Getenv("PGDATABASE")
+	// 	password = os.Getenv("PGPASSWORD")
+	// 	dbName   = os.Getenv("PGUSER")
+	// )
 
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, dbName)
+	connString := os.Getenv("DATABASE_URL")
 
 	db, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
 
@@ -40,7 +39,7 @@ func init() {
 
 func main() {
 
-	PORT := os.Getenv("DB_PORT")
+	PORT := os.Getenv("PGPORT")
 
 	routers.StartServer(db).Run(":" + PORT)
 }
