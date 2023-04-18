@@ -19,9 +19,9 @@ var (
 
 func init() {
 
-	if err = godotenv.Load(); err != nil {
-		panic(err)
-	}
+	// if err = godotenv.Load(); err != nil {
+	// 	panic(err)
+	// }
 
 	var (
 		host     = os.Getenv("DB_HOST")
