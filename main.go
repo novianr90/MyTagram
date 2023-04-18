@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	//
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -19,10 +18,6 @@ var (
 
 func init() {
 
-	// if err = godotenv.Load(); err != nil {
-	// 	panic(err)
-	// }
-
 	var (
 		host     = os.Getenv("DB_HOST")
 		port     = os.Getenv("DB_PORT")
@@ -35,13 +30,12 @@ func init() {
 
 	db, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
 
-	// if err = godotenv.Load(); err != nil {
-	// 	panic(err)
-	// }
-
 	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{})
 }
 
 func main() {
-	routers.StartServer(db).Run(":3000")
+
+	PORT := os.Getenv("DB_PORT")
+
+	routers.StartServer(db).Run(":" + PORT)
 }
