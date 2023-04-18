@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -29,6 +30,10 @@ func init() {
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, dbName)
 
 	db, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
+
+	if err != nil {
+		log.Fatal("error connecting to database:", err)
+	}
 
 	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{})
 }
