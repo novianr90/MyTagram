@@ -30,6 +30,9 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		}
 	)
 
+	app.Use(gin.Logger())
+	app.Use(gin.Recovery())
+
 	userRouter := app.Group("/users")
 	{
 		userRouter.POST("/register", userController.Register)
