@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type FileController struct {
@@ -22,7 +23,9 @@ func (fc *FileController) GetImages(c *gin.Context) {
 		err  error
 	)
 
-	fileName, err := helpers.VerifyImage(fileId)
+	fileData, err := helpers.VerifyImage(fileId)
+
+	fileName := fileData.(jwt.MapClaims)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -30,7 +33,7 @@ func (fc *FileController) GetImages(c *gin.Context) {
 		})
 	}
 
-	photoName := fileName.(string)
+	photoName := fileName["name"].(string)
 
 	file, err = fc.FileService.GetUploadedFile(photoName)
 
