@@ -78,9 +78,9 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 
 func (pc *PhotoController) GetAll(c *gin.Context) {
 	var (
-		userData = c.MustGet("userData").(jwt.MapClaims)
+		userData = c.MustGet("userData").(models.User)
 
-		userId = uint(userData["id"].(float64))
+		userId = userData.ID
 
 		photosResponse []PhotoResponse
 
