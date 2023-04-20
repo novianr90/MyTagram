@@ -5,6 +5,7 @@ import (
 	"final-project-hacktiv8/services"
 	"fmt"
 	"io"
+	"math/rand"
 	"mime/multipart"
 	"net/http"
 
@@ -71,7 +72,9 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		File: fileBytes,
 	}
 
-	url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%d/%s", newFile.ID, newFile.Name)
+	randomNum := rand.Intn(100000) + rand.Intn(1000) + rand.Intn(100)
+
+	url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%d/%s", newFile.ID, fmt.Sprintf("files#%d", randomNum))
 
 	photo := models.Photo{
 		Title:    photoDto.Title,
