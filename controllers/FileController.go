@@ -33,9 +33,15 @@ func (fc *FileController) GetImages(c *gin.Context) {
 		})
 	}
 
-	photoName := fileName["name"].(string)
+	photoName := fileName["pathToPhoto"].(string)
 
 	file, err = fc.FileService.GetUploadedFile(photoName)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+	}
 
 	c.Writer.WriteHeader(http.StatusOK)
 	c.Header("Content-Disposition", "attachment; filename="+file.Name)
