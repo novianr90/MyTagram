@@ -3,11 +3,12 @@ package controllers
 import (
 	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
+	"fmt"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type PhotoController struct {
@@ -28,9 +29,9 @@ type PhotoResponse struct {
 
 func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 	var (
-		userData = c.MustGet("userData").(jwt.MapClaims)
+		userData = c.MustGet("userData").(models.User)
 
-		userId = uint(userData["id"].(float64))
+		userId = userData.ID
 
 		photoDto PhotoDto
 
@@ -44,16 +45,30 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		return
 	}
 
-	err = c.SaveUploadedFile(photoDto.Photo, "photos/"+photoDto.Photo.Filename)
+	fileData, err := photoDto.Photo.Open()
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"message": "error setelah upload file",
+			"message": "error pas open file",
 		})
-		return
 	}
 
-	url := "http://localhost:3000/photos/image/" + photoDto.Photo.Filename
+	defer fileData.Close()
+
+	fileBytes, err := ioutil.ReadAll(fileData)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": "error pas read file data",
+		})
+	}
+
+	newFile := models.File{
+		Name: photoDto.Photo.Filename,
+		File: fileBytes,
+	}
+
+	url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%d/%s", newFile.ID, newFile.Name)
 
 	photo := models.Photo{
 		Title:    photoDto.Title,
