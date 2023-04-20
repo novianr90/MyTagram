@@ -1,13 +1,13 @@
 package middlewares
 
 import (
+	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func PhotoAuthorization(photoService *services.PhotoService) gin.HandlerFunc {
@@ -24,9 +24,9 @@ func PhotoAuthorization(photoService *services.PhotoService) gin.HandlerFunc {
 
 		photo, err := photoService.GetPhotoById(uint(photoId))
 
-		data := c.MustGet("userData").(jwt.MapClaims)
+		data := c.MustGet("userData").(models.User)
 
-		userId := uint(data["id"].(float64))
+		userId := data.ID
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{

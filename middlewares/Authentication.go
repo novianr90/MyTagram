@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"final-project-hacktiv8/helpers"
+	"final-project-hacktiv8/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func Authentication() gin.HandlerFunc {
@@ -20,7 +20,7 @@ func Authentication() gin.HandlerFunc {
 			return
 		}
 
-		userData := verifyToken.(jwt.MapClaims)
+		userData := verifyToken.(models.User)
 
 		c.Set("userData", userData)
 

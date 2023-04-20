@@ -18,14 +18,6 @@ var (
 
 func init() {
 
-	// var (
-	// 	host     = os.Getenv("PGHOST")
-	// 	port     = os.Getenv("PGPORT")
-	// 	username = os.Getenv("PGDATABASE")
-	// 	password = os.Getenv("PGPASSWORD")
-	// 	dbName   = os.Getenv("PGUSER")
-	// )
-
 	connString := os.Getenv("DATABASE_URL")
 
 	db, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
@@ -39,7 +31,7 @@ func init() {
 
 func main() {
 
-	PORT := os.Getenv("PGPORT")
+	PORT := os.Getenv("PORT")
 
 	routers.StartServer(db).Run(":" + PORT)
 }
