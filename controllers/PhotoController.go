@@ -67,7 +67,7 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 	}
 
 	newFile := models.File{
-		Name: photoDto.Photo.Filename,
+		Name: photoDto.Title,
 		File: fileBytes,
 	}
 
