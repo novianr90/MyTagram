@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func Authentication() gin.HandlerFunc {
@@ -20,7 +21,9 @@ func Authentication() gin.HandlerFunc {
 			return
 		}
 
-		userData := verifyToken.(models.User)
+		userData := verifyToken.(jwt.MapClaims)
+
+		
 
 		c.Set("userData", userData)
 

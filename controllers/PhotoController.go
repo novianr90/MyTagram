@@ -4,11 +4,12 @@ import (
 	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type PhotoController struct {
@@ -29,9 +30,9 @@ type PhotoResponse struct {
 
 func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 	var (
-		userData = c.MustGet("userData").(models.User)
+		userData = c.MustGet("userData").(jwt.MapClaims)
 
-		userId = userData.ID
+		userId = uint(userData["id"].(float64))
 
 		photoDto PhotoDto
 
@@ -53,9 +54,11 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		})
 	}
 
+	fileSizeInfo := photoDto.Photo.Size
+
 	defer fileData.Close()
 
-	fileBytes, err := ioutil.ReadAll(fileData)
+	fileBytes, err := io.ReadAll(io.LimitReader(fileData, fileSizeInfo))
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
@@ -93,9 +96,9 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 
 func (pc *PhotoController) GetAll(c *gin.Context) {
 	var (
-		userData = c.MustGet("userData").(models.User)
+		userData = c.MustGet("userData").(jwt.MapClaims)
 
-		userId = userData.ID
+		userId = uint(userData["id"].(float64))
 
 		photosResponse []PhotoResponse
 
