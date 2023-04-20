@@ -25,6 +25,34 @@ func GenerateToken(id uint, email string) string {
 	return signedToken
 }
 
+func GenerateTokenForImage(pathToPhoto string) string {
+	claims := jwt.MapClaims{
+		"pathToPhoto": pathToPhoto,
+	}
+
+	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	signedToken, _ := parseToken.SignedString([]byte(secretKey))
+
+	return signedToken
+}
+
+func VerifyImage(imageId string) (interface{}, error) {
+	errResponse := errors.New("wrong id")
+	token, _ := jwt.Parse(imageId, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errResponse
+		}
+		return []byte(secretKey), nil
+	})
+
+	if _, ok := token.Claims.(jwt.MapClaims); !ok && !token.Valid {
+		return "nil", errResponse
+	}
+
+	return token.Claims.(jwt.MapClaims), nil
+}
+
 func VerifyToken(c *gin.Context) (interface{}, error) {
 	var (
 		errResponse = errors.New("sign in to proceed")

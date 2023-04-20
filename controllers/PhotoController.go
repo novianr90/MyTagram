@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"final-project-hacktiv8/helpers"
 	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
 	"fmt"
 	"io"
-	"math/rand"
 	"mime/multipart"
 	"net/http"
 
@@ -15,6 +15,7 @@ import (
 
 type PhotoController struct {
 	PhotoService *services.PhotoService
+	FileService  *services.FileService
 }
 
 type PhotoDto struct {
@@ -72,9 +73,16 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		File: fileBytes,
 	}
 
-	randomNum := rand.Intn(100000) + rand.Intn(1000) + rand.Intn(100)
+	_, err = pc.FileService.SaveUploadedFile(newFile)
 
-	url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%d/%s", newFile.ID, fmt.Sprintf("files#%d", randomNum))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": "error saat upload",
+		})
+		return
+	}
+
+	url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFile.Name))
 
 	photo := models.Photo{
 		Title:    photoDto.Title,

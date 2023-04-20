@@ -26,7 +26,7 @@ func init() {
 		log.Fatal("error connecting to database:", err)
 	}
 
-	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{})
+	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{}, models.File{})
 }
 
 func main() {
