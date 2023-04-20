@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"final-project-hacktiv8/helpers"
-	"final-project-hacktiv8/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,8 +21,6 @@ func Authentication() gin.HandlerFunc {
 		}
 
 		userData := verifyToken.(jwt.MapClaims)
-
-		
 
 		c.Set("userData", userData)
 
