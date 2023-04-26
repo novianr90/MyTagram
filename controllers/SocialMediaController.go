@@ -4,8 +4,9 @@ import (
 	"final-project-hacktiv8/helpers"
 	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
-	"final-project-hacktiv8/vendor/github.com/golang-jwt/jwt/v5"
 	"net/http"
+
+	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/gin-gonic/gin"
 )
