@@ -23,7 +23,7 @@ type SocialMediaDto struct {
 }
 
 // CreateSocialMedia godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Create new Social Media
 // @Description Create new social media with specific user
 // @Tags Social Media
@@ -85,7 +85,7 @@ func (smc *SocialMediaController) CreateSocialMedia(c *gin.Context) {
 }
 
 // GetAllSocialMedia godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get All Social Media
 // @Description Get all social media with specific user
 // @Tags Social Media
@@ -128,7 +128,7 @@ func (smc *SocialMediaController) GetAllAccounts(c *gin.Context) {
 }
 
 // GetSocialMedia godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get Social Media
 // @Description Get social media for specific user
 // @Tags Social Media
@@ -170,7 +170,7 @@ func (smc *SocialMediaController) GetAccountById(c *gin.Context) {
 }
 
 // GetSocialMedia godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Update Social Media
 // @Description Update social media for specific user
 // @Tags Social Media
@@ -221,7 +221,7 @@ func (smc *SocialMediaController) UpdateAccount(c *gin.Context) {
 }
 
 // DeleteSocialMedia godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Delete Social Media
 // @Description Delete social media for specific user
 // @Tags Social Media

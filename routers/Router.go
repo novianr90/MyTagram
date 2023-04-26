@@ -23,6 +23,9 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host mytagram-production.up.railway.app
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 // @BasePath /
 func StartServer(db *gorm.DB) *gin.Engine {
 	var (

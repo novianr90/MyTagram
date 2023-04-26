@@ -20,7 +20,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get all social media with specific user",
@@ -49,7 +49,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Create new social media with specific user",
@@ -93,7 +93,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get social media for specific user",
@@ -128,7 +128,7 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Update social media for specific user",
@@ -175,7 +175,7 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Delete social media for specific user",
@@ -212,7 +212,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get All Comments for specific user",
@@ -243,7 +243,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get 1 Comment for specific user",
@@ -278,7 +278,7 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Update 1 Comment for specific user",
@@ -320,7 +320,7 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Delete 1 Comment for specific user",
@@ -357,7 +357,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get all photos for specific user",
@@ -386,7 +386,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Create new photo with specific user",
@@ -437,7 +437,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Get photo by id for specific user",
@@ -472,7 +472,7 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Update photo by id for specific user",
@@ -525,7 +525,7 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Delete photo by id for specific user",
@@ -553,7 +553,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "jwt": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Create Comment by specific photo id",

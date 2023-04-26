@@ -89,7 +89,7 @@ paths:
               $ref: '#/definitions/models.SocialMedia'
             type: array
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get All Social Media
       tags:
       - Social Media
@@ -116,7 +116,7 @@ paths:
           schema:
             $ref: '#/definitions/models.SocialMedia'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Create new Social Media
       tags:
       - Social Media
@@ -139,7 +139,7 @@ paths:
           schema:
             type: string
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Delete Social Media
       tags:
       - Social Media
@@ -161,7 +161,7 @@ paths:
           schema:
             $ref: '#/definitions/models.SocialMedia'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get Social Media
       tags:
       - Social Media
@@ -191,7 +191,7 @@ paths:
           schema:
             type: string
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Update Social Media
       tags:
       - Social Media
@@ -210,7 +210,7 @@ paths:
               $ref: '#/definitions/models.Comment'
             type: array
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get All Comments
       tags:
       - Comments
@@ -233,7 +233,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Delete Comment
       tags:
       - Comments
@@ -255,7 +255,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get Comment
       tags:
       - Comments
@@ -282,7 +282,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Update Comment
       tags:
       - Comments
@@ -301,7 +301,7 @@ paths:
               $ref: '#/definitions/models.Photo'
             type: array
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get All Photos
       tags:
       - Photos
@@ -333,7 +333,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Photo'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Create new Photo
       tags:
       - Photos
@@ -350,7 +350,7 @@ paths:
           schema:
             type: string
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Delete Photo by ID
       tags:
       - Photos
@@ -372,7 +372,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Photo'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Get Photo by ID
       tags:
       - Photos
@@ -406,7 +406,7 @@ paths:
           schema:
             type: string
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Update Photo by ID
       tags:
       - Photos
@@ -434,7 +434,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - jwt: []
+      - BearerAuth: []
       summary: Create Comment By Photo ID
       tags:
       - Comments
@@ -501,9 +501,3 @@ paths:
       tags:
       - Users
 swagger: "2.0"
-
-securityDefinitions:
-  jwt:
-    type: apiKey
-    name: Authorization
-    in: header

@@ -32,7 +32,7 @@ type PhotoResponse struct {
 }
 
 // CreatePhoto godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Create new Photo
 // @Description Create new photo with specific user
 // @Tags Photos
@@ -121,7 +121,7 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 }
 
 // GetAll godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get All Photos
 // @Description Get all photos for specific user
 // @Tags Photos
@@ -163,7 +163,7 @@ func (pc *PhotoController) GetAll(c *gin.Context) {
 }
 
 // GetPhoto godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get Photo by ID
 // @Description Get photo by id for specific user
 // @Tags Photos
@@ -196,7 +196,7 @@ func (pc *PhotoController) GetPhotoById(c *gin.Context) {
 }
 
 // Update godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Update Photo by ID
 // @Description Update photo by id for specific user
 // @Tags Photos
@@ -302,7 +302,7 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 }
 
 // Delete godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Delete Photo by ID
 // @Description Delete photo by id for specific user
 // @Tags Photos

@@ -25,7 +25,7 @@ type CommentResponse struct {
 }
 
 // CreateComment godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Create Comment By Photo ID
 // @Description Create Comment by specific photo id
 // @Tags Comments
@@ -88,7 +88,7 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 }
 
 // GetAllComments godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get All Comments
 // @Description Get All Comments for specific user
 // @Tags Comments
@@ -128,7 +128,7 @@ func (cc *CommentController) GetAllComments(c *gin.Context) {
 }
 
 // GetComment godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Get Comment
 // @Description Get 1 Comment for specific user
 // @Tags Comments
@@ -157,7 +157,7 @@ func (cc *CommentController) GetComment(c *gin.Context) {
 }
 
 // UpdateComment godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Update Comment
 // @Description Update 1 Comment for specific user
 // @Tags Comments
@@ -211,7 +211,7 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 }
 
 // DeleteComment godoc
-// @Security jwt
+// @Security BearerAuth
 // @Summary Delete Comment
 // @Description Delete 1 Comment for specific user
 // @Tags Comments
