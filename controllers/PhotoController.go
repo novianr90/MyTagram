@@ -181,7 +181,7 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 	data := c.MustGet("data").(map[string]any)
 
 	photo := data["photo"].(models.Photo)
-	photoId := data["photoId"].(uint)
+	photoId := data["photoId"].(int)
 
 	if photoDto.Photo == nil {
 		newPhoto := models.Photo{
@@ -189,7 +189,7 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 			Caption: photoDto.Caption,
 		}
 
-		err = pc.PhotoService.UpdatePhoto(photoId, newPhoto)
+		err = pc.PhotoService.UpdatePhoto(uint(photoId), newPhoto)
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
@@ -241,6 +241,13 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 
 		newFile, err := pc.FileService.UpdateFile(pathPhoto, newFileData)
 
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+
 		url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFile.Name))
 
 		newPhoto := models.Photo{
@@ -249,7 +256,7 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 			PhotoUrl: url,
 		}
 
-		err = pc.PhotoService.UpdatePhoto(photoId, newPhoto)
+		err = pc.PhotoService.UpdatePhoto(uint(photoId), newPhoto)
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
