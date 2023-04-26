@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Photo represent the model for a photo
 type Photo struct {
 	ID        uint      `gorm:"not null;primaryKey" json:"id"`
 	Title     string    `gorm:"not null" json:"title"`

@@ -22,6 +22,17 @@ type SocialMediaDto struct {
 	UserID         uint   `json:"user_id"`
 }
 
+// CreateSocialMedia godoc
+// @Security ApiKeyAuth
+// @Summary Create new Social Media
+// @Description Create new social media with specific user
+// @Tags Social Media
+// @Accept mpfd
+// @Produce json
+// @Param name formData string true "Social Media Name"
+// @Param social_media_url formData string true "Social Media URL"
+// @Success 200 {object} models.SocialMedia
+// @Router /accounts [post]
 func (smc *SocialMediaController) CreateSocialMedia(c *gin.Context) {
 	var (
 		data = c.MustGet("userData").(jwt.MapClaims)
@@ -73,6 +84,15 @@ func (smc *SocialMediaController) CreateSocialMedia(c *gin.Context) {
 	})
 }
 
+// GetAllSocialMedia godoc
+// @Security ApiKeyAuth
+// @Summary Get All Social Media
+// @Description Get all social media with specific user
+// @Tags Social Media
+// @Accept mpfd
+// @Produce json
+// @Success 200 {array} models.SocialMedia
+// @Router /accounts [get]
 func (smc *SocialMediaController) GetAllAccounts(c *gin.Context) {
 	var (
 		data = c.MustGet("userData").(jwt.MapClaims)
@@ -107,6 +127,16 @@ func (smc *SocialMediaController) GetAllAccounts(c *gin.Context) {
 	})
 }
 
+// GetSocialMedia godoc
+// @Security ApiKeyAuth
+// @Summary Get Social Media
+// @Description Get social media for specific user
+// @Tags Social Media
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Social Media ID"
+// @Success 200 {object} models.SocialMedia
+// @Router /accounts/{id} [get]
 func (smc *SocialMediaController) GetAccountById(c *gin.Context) {
 	var (
 		data = c.MustGet("userAndAccountId").(map[string]uint)
@@ -139,6 +169,18 @@ func (smc *SocialMediaController) GetAccountById(c *gin.Context) {
 	})
 }
 
+// GetSocialMedia godoc
+// @Security ApiKeyAuth
+// @Summary Update Social Media
+// @Description Update social media for specific user
+// @Tags Social Media
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Social Media ID"
+// @Param name formData string false "Name social media to update"
+// @Param social_media_url formData string false "url to update"
+// @Success 200 {string} string "data sucesfully updated"
+// @Router /accounts/{id} [put]
 func (smc *SocialMediaController) UpdateAccount(c *gin.Context) {
 	var (
 		data = c.MustGet("userAndAccountId").(map[string]uint)
@@ -178,6 +220,16 @@ func (smc *SocialMediaController) UpdateAccount(c *gin.Context) {
 	})
 }
 
+// DeleteSocialMedia godoc
+// @Security ApiKeyAuth
+// @Summary Delete Social Media
+// @Description Delete social media for specific user
+// @Tags Social Media
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Social Media ID"
+// @Success 200 {string} string "data sucesfully deleted"
+// @Router /accounts/{id} [delete]
 func (smc *SocialMediaController) DeleteAccount(c *gin.Context) {
 	var (
 		data = c.MustGet("userAndAccountId").(map[string]uint)

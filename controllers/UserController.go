@@ -21,6 +21,18 @@ type UserDto struct {
 	Age      uint   `josn:"age" form:"age"`
 }
 
+// Register godoc
+// @Summary Create new account
+// @Description Register new account
+// @Tags Users
+// @Accept mpfd
+// @Produce json
+// @Param email formData string true "Email"
+// @Param username formData string true "Username"
+// @Param password formData string true "Password"
+// @Param age formData int true "Age"
+// @Success 200 {object} models.User
+// @Router /users/register [post]
 func (uc *UserController) Register(c *gin.Context) {
 	var (
 		userDto     UserDto
@@ -68,6 +80,16 @@ func (uc *UserController) Register(c *gin.Context) {
 	})
 }
 
+// Login godoc
+// @Summary Login account
+// @Description Login with user's info
+// @Tags Users
+// @Accept mpfd
+// @Produce json
+// @Param email formData string true "Email"
+// @Param password formData string true "Password"
+// @Success 200 {string} string "Token"
+// @Router /users/login [post]
 func (uc *UserController) Login(c *gin.Context) {
 
 	var (

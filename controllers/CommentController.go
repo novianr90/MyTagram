@@ -24,6 +24,17 @@ type CommentResponse struct {
 	Message string `json:"comment"`
 }
 
+// CreateComment godoc
+// @Security ApiKeyAuth
+// @Summary Create Comment By Photo ID
+// @Description Create Comment by specific photo id
+// @Tags Comments
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Photo ID"
+// @Param message formData string true "Message"
+// @Success 200 {object} models.Comment
+// @Router /photos/{id}/comment [post]
 func (cc *CommentController) CreateComment(c *gin.Context) {
 	var (
 		data = c.MustGet("data").(map[string]any)
@@ -76,6 +87,15 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 	})
 }
 
+// GetAllComments godoc
+// @Security ApiKeyAuth
+// @Summary Get All Comments
+// @Description Get All Comments for specific user
+// @Tags Comments
+// @Accept mpfd
+// @Produce json
+// @Success 200 {array} models.Comment
+// @Router /comments [get]
 func (cc *CommentController) GetAllComments(c *gin.Context) {
 	var (
 		userData = c.MustGet("userData").(jwt.MapClaims)
@@ -107,6 +127,16 @@ func (cc *CommentController) GetAllComments(c *gin.Context) {
 	})
 }
 
+// GetComment godoc
+// @Security ApiKeyAuth
+// @Summary Get Comment
+// @Description Get 1 Comment for specific user
+// @Tags Comments
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Comment ID"
+// @Success 200 {object} models.Comment
+// @Router /comments/{id} [get]
 func (cc *CommentController) GetComment(c *gin.Context) {
 	var (
 		commentResponse CommentResponse
@@ -126,6 +156,17 @@ func (cc *CommentController) GetComment(c *gin.Context) {
 
 }
 
+// UpdateComment godoc
+// @Security ApiKeyAuth
+// @Summary Update Comment
+// @Description Update 1 Comment for specific user
+// @Tags Comments
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Comment ID"
+// @Param message formData string true "New message to update"
+// @Success 200 {object} models.Comment
+// @Router /comments/{id} [put]
 func (cc *CommentController) UpdateComment(c *gin.Context) {
 	var (
 		err error
@@ -169,6 +210,16 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 	})
 }
 
+// DeleteComment godoc
+// @Security ApiKeyAuth
+// @Summary Delete Comment
+// @Description Delete 1 Comment for specific user
+// @Tags Comments
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Comment ID"
+// @Success 200 {object} models.Comment
+// @Router /comments/{id} [delete]
 func (cc *CommentController) DeleteComment(c *gin.Context) {
 	var (
 		err error

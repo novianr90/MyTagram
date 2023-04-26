@@ -1,0 +1,469 @@
+definitions:
+  models.Comment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.SocialMedia:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      socialMediaUrl:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      age:
+        type: integer
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /accounts:
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get all social media with specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SocialMedia'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Social Media
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create new social media with specific user
+      parameters:
+      - description: Social Media Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Social Media URL
+        in: formData
+        name: social_media_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - ApiKeyAuth: []
+      summary: Create new Social Media
+      tags:
+      - Social Media
+  /accounts/{id}:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: Delete social media for specific user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data sucesfully deleted
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Social Media
+      tags:
+      - Social Media
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get social media for specific user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Social Media
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update social media for specific user
+      parameters:
+      - description: Social Media ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Name social media to update
+        in: formData
+        name: name
+        type: string
+      - description: url to update
+        in: formData
+        name: social_media_url
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data sucesfully updated
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Update Social Media
+      tags:
+      - Social Media
+  /comments:
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get All Comments for specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Comments
+      tags:
+      - Comments
+  /comments/{id}:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: Delete 1 Comment for specific user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Comment
+      tags:
+      - Comments
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get 1 Comment for specific user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Comment
+      tags:
+      - Comments
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update 1 Comment for specific user
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: New message to update
+        in: formData
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Comment
+      tags:
+      - Comments
+  /photos:
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get all photos for specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Photo'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Photos
+      tags:
+      - Photos
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create new photo with specific user
+      parameters:
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Caption
+        in: formData
+        name: caption
+        required: true
+        type: string
+      - description: Photo to upload
+        in: formData
+        name: photo
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - ApiKeyAuth: []
+      summary: Create new Photo
+      tags:
+      - Photos
+  /photos/{id}:
+    get:
+      consumes:
+      - multipart/form-data
+      description: Get photo by id for specific user
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Photo by ID
+      tags:
+      - Photos
+    put:
+      consumes:
+      - multipart/form-data
+      description: Delete photo by id for specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data sucessfully deleted
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Photo by ID
+      tags:
+      - Photos
+  /photos/{id}/comment:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create Comment by specific photo id
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Message
+        in: formData
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Comment By Photo ID
+      tags:
+      - Comments
+  /users/login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Login with user's info
+      parameters:
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Token
+          schema:
+            type: string
+      summary: Login account
+      tags:
+      - Users
+  /users/register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Register new account
+      parameters:
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Age
+        in: formData
+        name: age
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create new account
+      tags:
+      - Users
+swagger: "2.0"

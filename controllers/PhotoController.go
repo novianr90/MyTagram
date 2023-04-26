@@ -31,6 +31,18 @@ type PhotoResponse struct {
 	PhotoUrl string `json:"photo_url"`
 }
 
+// CreatePhoto godoc
+// @Security ApiKeyAuth
+// @Summary Create new Photo
+// @Description Create new photo with specific user
+// @Tags Photos
+// @Accept mpfd
+// @Produce json
+// @Param title formData string true "Title"
+// @Param caption formData string true "Caption"
+// @Param photo formData file true "Photo to upload"
+// @Success 200 {object} models.Photo
+// @Router /photos [post]
 func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 	var (
 		userData = c.MustGet("userData").(jwt.MapClaims)
@@ -108,6 +120,15 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 	})
 }
 
+// GetAll godoc
+// @Security ApiKeyAuth
+// @Summary Get All Photos
+// @Description Get all photos for specific user
+// @Tags Photos
+// @Accept mpfd
+// @Produce json
+// @Success 200 {array} models.Photo
+// @Router /photos [get]
 func (pc *PhotoController) GetAll(c *gin.Context) {
 	var (
 		userData = c.MustGet("userData").(jwt.MapClaims)
@@ -141,6 +162,16 @@ func (pc *PhotoController) GetAll(c *gin.Context) {
 	})
 }
 
+// GetPhoto godoc
+// @Security ApiKeyAuth
+// @Summary Get Photo by ID
+// @Description Get photo by id for specific user
+// @Tags Photos
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Photo ID"
+// @Success 200 {object} models.Photo
+// @Router /photos/{id} [get]
 func (pc *PhotoController) GetPhotoById(c *gin.Context) {
 	var (
 		err error
@@ -164,6 +195,19 @@ func (pc *PhotoController) GetPhotoById(c *gin.Context) {
 	})
 }
 
+// Update godoc
+// @Security ApiKeyAuth
+// @Summary Update Photo by ID
+// @Description Update photo by id for specific user
+// @Tags Photos
+// @Accept mpfd
+// @Produce json
+// @Param id path int true "Photo ID"
+// @Param title formData string false "Title to update"
+// @Param caption formData string false "Caption to update"
+// @Param photo formData file false "Photo to update"
+// @Success 200 {string} string "data sucesfully updated"
+// @Router /photos/{id} [put]
 func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 	var (
 		err error
@@ -257,6 +301,15 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 	})
 }
 
+// Delete godoc
+// @Security ApiKeyAuth
+// @Summary Delete Photo by ID
+// @Description Delete photo by id for specific user
+// @Tags Photos
+// @Accept mpfd
+// @Produce json
+// @Success 200 {string} string "Data sucessfully deleted"
+// @Router /photos/{id} [put]
 func (pc *PhotoController) DeletePhotoById(c *gin.Context) {
 
 	data := c.MustGet("data").(map[string]any)

@@ -9,6 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// User represent the model for a User
+
 type User struct {
 	ID        uint   `gorm:"not null;primaryKey"`
 	Email     string `gorm:"not null;uniqueIndex;type:varchar(100)"`
