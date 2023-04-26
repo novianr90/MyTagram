@@ -167,5 +167,25 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "data sucessfully updated",
 	})
+}
 
+func (cc *CommentController) DeleteComment(c *gin.Context) {
+	var (
+		err error
+
+		data = c.MustGet("dataComment").(models.Comment)
+	)
+
+	err = cc.CommentService.DeleteComment(data.ID)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "data sucesfully deleted",
+	})
 }
