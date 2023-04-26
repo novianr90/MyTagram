@@ -4,7 +4,6 @@ import (
 	"final-project-hacktiv8/helpers"
 	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +16,12 @@ type CommentController struct {
 
 type CommentDto struct {
 	Message string `json:"message" form:"message" binding:"required"`
+}
+
+type CommentResponse struct {
+	PhotoID uint   `json:"photo_id"`
+	UserID  uint   `json:"user_id"`
+	Message string `json:"comment"`
 }
 
 func (cc *CommentController) CreateComment(c *gin.Context) {
@@ -60,9 +65,13 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 		}
 	}
 
-	fmt.Println(result)
+	response := CommentResponse{
+		PhotoID: result.PhotoID,
+		UserID:  result.UserID,
+		Message: result.Message,
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"comment": result,
+		"message": response,
 	})
 }
