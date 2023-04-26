@@ -8,6 +8,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -54,6 +55,7 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"message": "error pas open file",
 		})
+		return
 	}
 
 	fileSizeInfo := photoDto.Photo.Size
@@ -66,6 +68,7 @@ func (pc *PhotoController) CreatePhoto(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"message": "error pas read file data",
 		})
+		return
 	}
 
 	newFile := models.File{
@@ -158,5 +161,103 @@ func (pc *PhotoController) GetPhotoById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"photo": photo,
+	})
+}
+
+func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
+	var (
+		err error
+
+		photoDto PhotoDto
+	)
+
+	if err = c.ShouldBind(&photoDto); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	data := c.MustGet("data").(map[string]any)
+
+	photo := data["photo"].(models.Photo)
+	photoId := data["photoId"].(uint)
+
+	if photoDto.Photo == nil {
+		newPhoto := models.Photo{
+			Title:   photoDto.Title,
+			Caption: photoDto.Caption,
+		}
+
+		err = pc.PhotoService.UpdatePhoto(photoId, newPhoto)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	} else {
+		photoToken := strings.Split(photo.PhotoUrl, "/")[4]
+
+		currentFile, err := helpers.VerifyImage(photoToken)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": "error pas open file",
+			})
+		}
+
+		photoName := currentFile.(jwt.MapClaims)
+
+		fileData, err := photoDto.Photo.Open()
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": "error pas open file",
+			})
+			return
+		}
+
+		fileSizeInfo := photoDto.Photo.Size
+
+		defer fileData.Close()
+
+		fileBytes, err := io.ReadAll(io.LimitReader(fileData, fileSizeInfo))
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": "error pas read file data",
+			})
+			return
+		}
+
+		newFileData := models.File{
+			Name: photoDto.Photo.Filename,
+			File: fileBytes,
+		}
+
+		newFile, err := pc.FileService.UpdateFile(photoName["pathToPhoto"].(string), newFileData)
+
+		url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFile.Name))
+
+		newPhoto := models.Photo{
+			Title:    photoDto.Title,
+			Caption:  photoDto.Caption,
+			PhotoUrl: url,
+		}
+
+		err = pc.PhotoService.UpdatePhoto(photoId, newPhoto)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "data sucessfully updated",
 	})
 }

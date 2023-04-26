@@ -44,8 +44,9 @@ func PhotoAuthorization(photoService *services.PhotoService) gin.HandlerFunc {
 		}
 
 		mapData := map[string]any{
-			"user":  data,
-			"photo": photo,
+			"user":    data,
+			"photo":   photo,
+			"photoId": photoId,
 		}
 
 		c.Set("data", mapData)
