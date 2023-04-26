@@ -20,7 +20,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get all social media with specific user",
@@ -49,7 +49,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Create new social media with specific user",
@@ -93,7 +93,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get social media for specific user",
@@ -128,7 +128,7 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Update social media for specific user",
@@ -175,7 +175,7 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Delete social media for specific user",
@@ -212,7 +212,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get All Comments for specific user",
@@ -243,7 +243,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get 1 Comment for specific user",
@@ -278,7 +278,7 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Update 1 Comment for specific user",
@@ -320,7 +320,7 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Delete 1 Comment for specific user",
@@ -357,7 +357,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get all photos for specific user",
@@ -386,7 +386,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Create new photo with specific user",
@@ -437,7 +437,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Get photo by id for specific user",
@@ -472,7 +472,60 @@ const docTemplate = `{
             "put": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
+                    }
+                ],
+                "description": "Update photo by id for specific user",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photos"
+                ],
+                "summary": "Update Photo by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Photo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title to update",
+                        "name": "title",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Caption to update",
+                        "name": "caption",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "Photo to update",
+                        "name": "photo",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data sucesfully updated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "jwt": []
                     }
                 ],
                 "description": "Delete photo by id for specific user",
@@ -500,7 +553,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "jwt": []
                     }
                 ],
                 "description": "Create Comment by specific photo id",

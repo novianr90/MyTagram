@@ -89,7 +89,7 @@ paths:
               $ref: '#/definitions/models.SocialMedia'
             type: array
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get All Social Media
       tags:
       - Social Media
@@ -116,7 +116,7 @@ paths:
           schema:
             $ref: '#/definitions/models.SocialMedia'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Create new Social Media
       tags:
       - Social Media
@@ -139,7 +139,7 @@ paths:
           schema:
             type: string
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Delete Social Media
       tags:
       - Social Media
@@ -161,7 +161,7 @@ paths:
           schema:
             $ref: '#/definitions/models.SocialMedia'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get Social Media
       tags:
       - Social Media
@@ -191,7 +191,7 @@ paths:
           schema:
             type: string
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Update Social Media
       tags:
       - Social Media
@@ -210,7 +210,7 @@ paths:
               $ref: '#/definitions/models.Comment'
             type: array
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get All Comments
       tags:
       - Comments
@@ -233,7 +233,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Delete Comment
       tags:
       - Comments
@@ -255,7 +255,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get Comment
       tags:
       - Comments
@@ -282,7 +282,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Update Comment
       tags:
       - Comments
@@ -301,7 +301,7 @@ paths:
               $ref: '#/definitions/models.Photo'
             type: array
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get All Photos
       tags:
       - Photos
@@ -333,11 +333,27 @@ paths:
           schema:
             $ref: '#/definitions/models.Photo'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Create new Photo
       tags:
       - Photos
   /photos/{id}:
+    delete:
+      consumes:
+      - multipart/form-data
+      description: Delete photo by id for specific user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data sucessfully deleted
+          schema:
+            type: string
+      security:
+      - jwt: []
+      summary: Delete Photo by ID
+      tags:
+      - Photos
     get:
       consumes:
       - multipart/form-data
@@ -356,24 +372,42 @@ paths:
           schema:
             $ref: '#/definitions/models.Photo'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Get Photo by ID
       tags:
       - Photos
     put:
       consumes:
       - multipart/form-data
-      description: Delete photo by id for specific user
+      description: Update photo by id for specific user
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Title to update
+        in: formData
+        name: title
+        type: string
+      - description: Caption to update
+        in: formData
+        name: caption
+        type: string
+      - description: Photo to update
+        in: formData
+        name: photo
+        type: file
       produces:
       - application/json
       responses:
         "200":
-          description: Data sucessfully deleted
+          description: data sucesfully updated
           schema:
             type: string
       security:
-      - ApiKeyAuth: []
-      summary: Delete Photo by ID
+      - jwt: []
+      summary: Update Photo by ID
       tags:
       - Photos
   /photos/{id}/comment:
@@ -400,7 +434,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Comment'
       security:
-      - ApiKeyAuth: []
+      - jwt: []
       summary: Create Comment By Photo ID
       tags:
       - Comments
@@ -467,3 +501,9 @@ paths:
       tags:
       - Users
 swagger: "2.0"
+
+securityDefinitions:
+  jwt:
+    type: apiKey
+    name: Authorization
+    in: header
