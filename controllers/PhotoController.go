@@ -237,7 +237,9 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 			File: fileBytes,
 		}
 
-		newFile, err := pc.FileService.UpdateFile(photoName["pathToPhoto"].(string), newFileData)
+		pathPhoto := photoName["pathToPhoto"].(string)
+
+		newFile, err := pc.FileService.UpdateFile(pathPhoto, newFileData)
 
 		url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFile.Name))
 
