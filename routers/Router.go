@@ -69,6 +69,8 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 		photoRouter.DELETE("/:photoId", middlewares.PhotoAuthorization(&photoService), photoController.DeletePhotoById)
 
+		// Comment
+		photoRouter.POST("/:photoId/comment", middlewares.PhotoAuthorization(&photoService))
 	}
 
 	filesRouter := app.Group("/files")
@@ -77,12 +79,7 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 	}
 
-	commentRouter := photoRouter.Group("/comments")
-	{
-		commentRouter.Use(middlewares.Authentication(), middlewares.PhotoAuthorization(&photoService), middlewares.CommentAuth(&commentService))
-
-		commentRouter.POST("", commentController.CreateComment)
-	}
+	_ = commentController
 
 	return app
 }
