@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"final-project-hacktiv8/models"
 
 	"gorm.io/gorm"
@@ -29,4 +30,20 @@ func (fs *FileService) GetUploadedFile(name string) (models.File, error) {
 	}
 
 	return file, nil
+}
+
+func (fs *FileService) DeleteFile(name string) error {
+	var file models.File
+
+	result := fs.DB.Where("name = ?", name).Delete(&file)
+
+	if err := result.Error; err != nil {
+		return err
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("no data to delete")
+	}
+
+	return nil
 }

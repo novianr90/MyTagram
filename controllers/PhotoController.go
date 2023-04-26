@@ -8,6 +8,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -253,5 +254,49 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "data sucessfully updated",
+	})
+}
+
+func (pc *PhotoController) DeletePhotoById(c *gin.Context) {
+
+	data := c.MustGet("data").(map[string]any)
+
+	photoId := uint(data["photoId"].(int))
+
+	if err := pc.PhotoService.DeletePhotoById(photoId); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	photo := data["photo"].(models.Photo)
+
+	photoName := strings.Split(photo.PhotoUrl, "/")[4]
+
+	fileData, err := helpers.VerifyImage(photoName)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	file := fileData.(jwt.MapClaims)
+
+	fileName := file["pathToPhoto"].(string)
+
+	err = pc.FileService.DeleteFile(fileName)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"messagee": "data sucessfully deleted",
 	})
 }
