@@ -15,7 +15,7 @@ type CommentController struct {
 }
 
 type CommentDto struct {
-	Message string `json:"message" form:"message"`
+	Message string `json:"message" form:"message" binding:"required"`
 }
 
 func (cc *CommentController) CreateComment(c *gin.Context) {

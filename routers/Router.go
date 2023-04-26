@@ -29,6 +29,10 @@ func StartServer(db *gorm.DB) *gin.Engine {
 			DB: db,
 		}
 
+		commentService = services.CommentService{
+			DB: db,
+		}
+
 		photoController = controllers.PhotoController{
 			PhotoService: &photoService,
 			FileService:  &fileService,
@@ -36,6 +40,10 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 		fileController = controllers.FileController{
 			FileService: &fileService,
+		}
+
+		commentController = controllers.CommentController{
+			CommentService: &commentService,
 		}
 	)
 
@@ -67,6 +75,13 @@ func StartServer(db *gorm.DB) *gin.Engine {
 	{
 		filesRouter.GET("/:image", fileController.GetImages)
 
+	}
+
+	commentRouter := photoRouter.Group("/comments")
+	{
+		commentRouter.Use(middlewares.Authentication(), middlewares.PhotoAuthorization(&photoService), middlewares.CommentAuth(&commentService))
+
+		commentRouter.POST("", commentController.CreateComment)
 	}
 
 	return app

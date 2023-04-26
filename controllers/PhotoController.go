@@ -20,8 +20,8 @@ type PhotoController struct {
 }
 
 type PhotoDto struct {
-	Title   string                `form:"title"`
-	Caption string                `form:"caption"`
+	Title   string                `form:"title" binding:"required"`
+	Caption string                `form:"caption" binding:"required"`
 	Photo   *multipart.FileHeader `form:"photo"`
 }
 
