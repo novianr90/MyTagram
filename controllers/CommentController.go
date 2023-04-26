@@ -75,3 +75,34 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 		"message": response,
 	})
 }
+
+func (cc *CommentController) GetAllComments(c *gin.Context) {
+	var (
+		userData = c.MustGet("userData").(jwt.MapClaims)
+
+		response []CommentResponse
+
+		err error
+	)
+
+	comments, err := cc.CommentService.GetAllComments(uint(userData["id"].(float64)))
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	for _, value := range comments {
+		response = append(response, CommentResponse{
+			PhotoID: value.PhotoID,
+			UserID:  value.UserID,
+			Message: value.Message,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"comments": response,
+	})
+}

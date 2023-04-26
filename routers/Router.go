@@ -79,5 +79,11 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 	}
 
+	commentRouter := app.Group("/comments")
+	{
+		commentRouter.Use(middlewares.Authentication())
+		commentRouter.GET("", commentController.GetAllComments)
+	}
+
 	return app
 }
