@@ -8,7 +8,6 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -180,7 +179,6 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 
 	data := c.MustGet("data").(map[string]any)
 
-	photo := data["photo"].(models.Photo)
 	photoId := data["photoId"].(int)
 
 	if photoDto.Photo == nil {
@@ -198,17 +196,6 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 			return
 		}
 	} else {
-		photoToken := strings.Split(photo.PhotoUrl, "/")[4]
-
-		currentFile, err := helpers.VerifyImage(photoToken)
-
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"message": "error pas open file",
-			})
-		}
-
-		photoName := currentFile.(jwt.MapClaims)
 
 		fileData, err := photoDto.Photo.Open()
 
@@ -237,18 +224,16 @@ func (pc *PhotoController) UpdatePhotoById(c *gin.Context) {
 			File: fileBytes,
 		}
 
-		pathPhoto := photoName["pathToPhoto"].(string)
-
-		newFile, err := pc.FileService.UpdateFile(pathPhoto, newFileData)
+		_, err = pc.FileService.SaveUploadedFile(newFileData)
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"message": err.Error(),
+				"message": "error saat upload",
 			})
 			return
 		}
 
-		url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFile.Name))
+		url := fmt.Sprintf("https://mytagram-production.up.railway.app/files/%s", helpers.GenerateTokenForImage(newFileData.Name))
 
 		newPhoto := models.Photo{
 			Title:    photoDto.Title,
