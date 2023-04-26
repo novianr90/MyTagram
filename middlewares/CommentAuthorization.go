@@ -1,17 +1,20 @@
 package middlewares
 
 import (
-	"final-project-hacktiv8/models"
 	"final-project-hacktiv8/services"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func CommentAuth(commentService *services.CommentService) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		mapData := c.MustGet("data").(map[string]any)
+
+		userData := c.MustGet("userData").(jwt.MapClaims)
+
+		userId := uint(userData["id"].(float64))
 
 		commentId, err := strconv.Atoi(c.Param("commentId"))
 
@@ -22,9 +25,7 @@ func CommentAuth(commentService *services.CommentService) gin.HandlerFunc {
 			return
 		}
 
-		photo := mapData["photo"].(models.Photo)
-
-		comment, err := commentService.GetOneComment(photo.ID, uint(commentId))
+		comment, err := commentService.GetOneComment(userId, uint(commentId))
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
@@ -33,7 +34,7 @@ func CommentAuth(commentService *services.CommentService) gin.HandlerFunc {
 			return
 		}
 
-		if comment.ID != photo.ID {
+		if comment.UserID != userId {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"messasge": "unauthorized",
 			})

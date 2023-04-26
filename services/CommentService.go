@@ -34,10 +34,10 @@ func (cs *CommentService) GetAllComments(userId uint) ([]models.Comment, error) 
 	return comments, nil
 }
 
-func (cs *CommentService) GetOneComment(photoId, messageId uint) (models.Comment, error) {
+func (cs *CommentService) GetOneComment(userId, messageId uint) (models.Comment, error) {
 	var comment models.Comment
 
-	if err := cs.DB.Where("photo_id = ?", photoId).Where("id = ?", messageId).First(&comment).Error; err != nil {
+	if err := cs.DB.Where("user_id = ?", userId).Where("id = ?", messageId).First(&comment).Error; err != nil {
 		return models.Comment{}, err
 	}
 
