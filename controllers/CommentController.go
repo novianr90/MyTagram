@@ -128,8 +128,6 @@ func (cc *CommentController) GetComment(c *gin.Context) {
 
 func (cc *CommentController) UpdateComment(c *gin.Context) {
 	var (
-		response CommentResponse
-
 		err error
 
 		data = c.MustGet("dataComment").(models.Comment)
@@ -155,7 +153,7 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 		}
 	}
 
-	comment, err := cc.CommentService.UpdateComment(data.ID, models.Comment{
+	_, err = cc.CommentService.UpdateComment(data.ID, models.Comment{
 		Message: commentDto.Message,
 	})
 
@@ -166,15 +164,8 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 		return
 	}
 
-	response = CommentResponse{
-		PhotoID: comment.PhotoID,
-		UserID:  comment.UserID,
-		Message: comment.Message,
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "data sucessfully updated",
-		"comment": response,
 	})
 
 }
