@@ -33,6 +33,10 @@ func StartServer(db *gorm.DB) *gin.Engine {
 			DB: db,
 		}
 
+		socialMediaService = services.SocialMediaService{
+			DB: db,
+		}
+
 		photoController = controllers.PhotoController{
 			PhotoService: &photoService,
 			FileService:  &fileService,
@@ -44,6 +48,10 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 		commentController = controllers.CommentController{
 			CommentService: &commentService,
+		}
+
+		socialMediaController = controllers.SocialMediaController{
+			Service: &socialMediaService,
 		}
 	)
 
@@ -88,6 +96,13 @@ func StartServer(db *gorm.DB) *gin.Engine {
 
 		commentRouter.PUT("/:commentId", middlewares.CommentAuth(&commentService), commentController.UpdateComment)
 		commentRouter.DELETE("/:commentId", middlewares.CommentAuth(&commentService), commentController.DeleteComment)
+	}
+
+	socialMediaRouter := app.Group("/accounts")
+	{
+		socialMediaRouter.Use(middlewares.Authentication())
+
+		socialMediaRouter.POST("/", socialMediaController.CreateSocialMedia)
 	}
 
 	return app
