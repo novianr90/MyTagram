@@ -85,6 +85,8 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		commentRouter.GET("", commentController.GetAllComments)
 
 		commentRouter.GET("/:commentId", middlewares.CommentAuth(&commentService), commentController.GetComment)
+
+		commentRouter.PUT("/:commentId", middlewares.CommentAuth(&commentService), commentController.UpdateComment)
 	}
 
 	return app

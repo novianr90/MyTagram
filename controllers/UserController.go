@@ -21,15 +21,13 @@ type UserDto struct {
 	Age      uint   `josn:"age" form:"age"`
 }
 
-var appJson = "application/json"
-
 func (uc *UserController) Register(c *gin.Context) {
 	var (
 		userDto     UserDto
 		contentType = helpers.GetContentType(c)
 	)
 
-	if contentType == appJson {
+	if contentType == helpers.AppJson {
 		if err := c.ShouldBindJSON(&userDto); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"message": err.Error(),
@@ -77,7 +75,7 @@ func (uc *UserController) Login(c *gin.Context) {
 		userDto     UserDto
 	)
 
-	if contentType == appJson {
+	if contentType == helpers.AppJson {
 		if err := c.ShouldBindJSON(&userDto); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"message": err.Error(),

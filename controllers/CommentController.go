@@ -35,7 +35,7 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 		contentType = helpers.GetContentType(c)
 	)
 
-	if contentType == appJson {
+	if contentType == helpers.AppJson {
 		if err = c.ShouldBindJSON(&commentDto); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 				"message": err.Error(),
@@ -122,6 +122,59 @@ func (cc *CommentController) GetComment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"comment": commentResponse,
+	})
+
+}
+
+func (cc *CommentController) UpdateComment(c *gin.Context) {
+	var (
+		response CommentResponse
+
+		err error
+
+		data = c.MustGet("dataComment").(models.Comment)
+
+		commentDto CommentDto
+
+		contentType = helpers.GetContentType(c)
+	)
+
+	if contentType == helpers.AppJson {
+		if err = c.ShouldBindJSON(&commentDto); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	} else {
+		if err = c.ShouldBind(&commentDto); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	comment, err := cc.CommentService.UpdateComment(data.ID, models.Comment{
+		Message: commentDto.Message,
+	})
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	response = CommentResponse{
+		PhotoID: comment.PhotoID,
+		UserID:  comment.UserID,
+		Message: comment.Message,
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "data sucessfully updated",
+		"comment": response,
 	})
 
 }
