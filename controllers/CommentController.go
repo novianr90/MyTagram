@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type CommentController struct {
@@ -45,10 +46,10 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 		}
 	}
 
-	userData := data["user"].(models.User)
+	userData := data["user"].(jwt.MapClaims)
 	photoData := data["photo"].(models.Photo)
 
-	result, err := cc.CommentService.CreateComment(userData.ID, photoData.ID, commentDto.Message)
+	result, err := cc.CommentService.CreateComment(uint(userData["id"].(float64)), photoData.ID, commentDto.Message)
 
 	if err != nil {
 		if err = c.ShouldBind(&commentDto); err != nil {
