@@ -24,3 +24,13 @@ func (sms *SocialMediaService) CreateSocialMedia(socmed models.SocialMedia) (mod
 
 	return socmed, nil
 }
+
+func (sms *SocialMediaService) GetAllSocialMedia(userId uint) ([]models.SocialMedia, error) {
+	var accounts []models.SocialMedia
+
+	if err := sms.DB.Where("user_id = ?", userId).Find(&accounts).Error; err != nil {
+		return []models.SocialMedia{}, err
+	}
+
+	return accounts, nil
+}

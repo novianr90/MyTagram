@@ -16,8 +16,10 @@ type SocialMediaController struct {
 }
 
 type SocialMediaDto struct {
+	ID             uint   `json:"id"`
 	Name           string `json:"name" binding:"required" form:"name"`
 	SocialMediaUrl string `jsonj:"social_media_url" binding:"required" form:"social_media_url"`
+	UserID         uint   `json:"user_id"`
 }
 
 func (smc *SocialMediaController) CreateSocialMedia(c *gin.Context) {
@@ -62,6 +64,45 @@ func (smc *SocialMediaController) CreateSocialMedia(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": result,
+		"message": models.SocialMedia{
+			ID:             result.ID,
+			Name:           result.Name,
+			SocialMediaUrl: result.SocialMediaUrl,
+			UserID:         result.UserID,
+		},
+	})
+}
+
+func (smc *SocialMediaController) GetAllAccounts(c *gin.Context) {
+	var (
+		data = c.MustGet("userData").(jwt.MapClaims)
+
+		accounts []models.SocialMedia
+
+		response []SocialMediaDto
+
+		err error
+	)
+
+	accounts, err = smc.Service.GetAllSocialMedia(uint(data["id"].(float64)))
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	for _, value := range accounts {
+		response = append(response, SocialMediaDto{
+			ID:             value.ID,
+			Name:           value.Name,
+			SocialMediaUrl: value.SocialMediaUrl,
+			UserID:         value.UserID,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": response,
 	})
 }
