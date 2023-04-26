@@ -106,3 +106,22 @@ func (cc *CommentController) GetAllComments(c *gin.Context) {
 		"comments": response,
 	})
 }
+
+func (cc *CommentController) GetComment(c *gin.Context) {
+	var (
+		commentResponse CommentResponse
+
+		data = c.MustGet("dataComment").(models.Comment)
+	)
+
+	commentResponse = CommentResponse{
+		PhotoID: data.PhotoID,
+		UserID:  data.UserID,
+		Message: data.Message,
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"comment": commentResponse,
+	})
+
+}
