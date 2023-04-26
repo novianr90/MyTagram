@@ -48,7 +48,7 @@ func (sms *SocialMediaService) GetAccountById(accountId uint) (models.SocialMedi
 func (sms *SocialMediaService) GetUserIdByAccountId(accountId uint) (uint, error) {
 	var userId uint
 
-	if err := sms.DB.Where("id = ?", accountId).Select("user_id").First(&userId).Error; err != nil {
+	if err := sms.DB.Model(models.SocialMedia{}).Where("id = ?", accountId).Select("user_id").First(&userId).Error; err != nil {
 		return 0, err
 	}
 
