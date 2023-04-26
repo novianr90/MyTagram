@@ -57,6 +57,8 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		photoRouter.GET("", photoController.GetAll)
 		photoRouter.GET("/:photoId", middlewares.PhotoAuthorization(&photoService), photoController.GetPhotoById)
 
+		photoRouter.PUT("/:photoId", middlewares.PhotoAuthorization(&photoService), photoController.UpdatePhotoById)
+
 	}
 
 	filesRouter := app.Group("/files")
