@@ -32,8 +32,8 @@ func (fs *FileService) GetUploadedFile(name string) (models.File, error) {
 	return file, nil
 }
 
-func (fs *FileService) UpdateFile(fileId uint, file models.File) (models.File, error) {
-	result := fs.DB.Model(models.File{}).Where("id = ?", fileId).Updates(&file)
+func (fs *FileService) UpdateFile(name string, file models.File) (models.File, error) {
+	result := fs.DB.Model(models.File{}).Where("name = ?", name).Updates(&file)
 
 	if result.Error != nil {
 		return models.File{}, result.Error
