@@ -138,3 +138,61 @@ func (smc *SocialMediaController) GetAccountById(c *gin.Context) {
 		"account": response,
 	})
 }
+
+func (smc *SocialMediaController) UpdateAccount(c *gin.Context) {
+	var (
+		data = c.MustGet("userAndAccountId").(map[string]uint)
+
+		dto SocialMediaDto
+
+		err error
+
+		contentType = helpers.GetContentType(c)
+	)
+
+	if contentType == helpers.AppJson {
+		if err = c.ShouldBindJSON(&dto); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	} else {
+		if err := c.ShouldBind(&dto); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	if err = smc.Service.UpdateAccounts(dto.Name, dto.SocialMediaUrl, data["accountId"]); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "data sucesfully updated",
+	})
+}
+
+func (smc *SocialMediaController) DeleteAccount(c *gin.Context) {
+	var (
+		data = c.MustGet("userAndAccountId").(map[string]uint)
+
+		err error
+	)
+
+	if err = smc.Service.DeleteAccount(data["accountId"]); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "data sucesffully deleted",
+	})
+}

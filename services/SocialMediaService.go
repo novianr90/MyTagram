@@ -54,3 +54,36 @@ func (sms *SocialMediaService) GetUserIdByAccountId(accountId uint) (uint, error
 
 	return userId, nil
 }
+
+func (sms *SocialMediaService) UpdateAccounts(name, url string, accountId uint) error {
+	newAccount := models.SocialMedia{
+		Name:           name,
+		SocialMediaUrl: url,
+	}
+
+	result := sms.DB.Model(models.SocialMedia{}).Where("id = ?", accountId).Updates(&newAccount)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("no data to update")
+	}
+
+	return nil
+}
+
+func (sms *SocialMediaService) DeleteAccount(accountId uint) error {
+	result := sms.DB.Where("id = ?", accountId).Delete(models.SocialMedia{})
+
+	if err := result.Error; err != nil {
+		return err
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("no data to delete")
+	}
+
+	return nil
+}

@@ -107,6 +107,10 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		socialMediaRouter.GET("", socialMediaController.GetAllAccounts)
 
 		socialMediaRouter.GET("/:accountId", middlewares.AccountAuthorization(&socialMediaService), socialMediaController.GetAccountById)
+
+		socialMediaRouter.PUT("/:accountId", middlewares.AccountAuthorization(&socialMediaService), socialMediaController.UpdateAccount)
+
+		socialMediaRouter.DELETE("/:accountId", middlewares.AccountAuthorization(&socialMediaService), socialMediaController.DeleteAccount)
 	}
 
 	return app
