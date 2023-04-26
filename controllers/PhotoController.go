@@ -145,7 +145,7 @@ func (pc *PhotoController) GetPhotoById(c *gin.Context) {
 		photo models.Photo
 	)
 
-	data := c.MustGet("mapData").(map[string]any)
+	data := c.MustGet("data").(map[string]any)
 
 	photo = data["photo"].(models.Photo)
 
