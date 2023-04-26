@@ -70,7 +70,7 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		photoRouter.DELETE("/:photoId", middlewares.PhotoAuthorization(&photoService), photoController.DeletePhotoById)
 
 		// Comment
-		photoRouter.POST("/:photoId/comment", middlewares.PhotoAuthorization(&photoService))
+		photoRouter.POST("/:photoId/comment", middlewares.PhotoAuthorization(&photoService), commentController.CreateComment)
 	}
 
 	filesRouter := app.Group("/files")
@@ -78,8 +78,6 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		filesRouter.GET("/:image", fileController.GetImages)
 
 	}
-
-	_ = commentController
 
 	return app
 }
