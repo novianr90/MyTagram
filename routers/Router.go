@@ -105,6 +105,8 @@ func StartServer(db *gorm.DB) *gin.Engine {
 		socialMediaRouter.POST("", socialMediaController.CreateSocialMedia)
 
 		socialMediaRouter.GET("", socialMediaController.GetAllAccounts)
+
+		socialMediaRouter.GET("/:accountId", middlewares.AccountAuthorization(&socialMediaService), socialMediaController.GetAccountById)
 	}
 
 	return app

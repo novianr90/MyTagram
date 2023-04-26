@@ -103,6 +103,38 @@ func (smc *SocialMediaController) GetAllAccounts(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": response,
+		"accounts": response,
+	})
+}
+
+func (smc *SocialMediaController) GetAccountById(c *gin.Context) {
+	var (
+		data = c.MustGet("userAndAccountId").(map[string]uint)
+
+		account models.SocialMedia
+
+		response SocialMediaDto
+
+		err error
+	)
+
+	account, err = smc.Service.GetAccountById(data["accountId"])
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	response = SocialMediaDto{
+		ID:             account.ID,
+		Name:           account.Name,
+		SocialMediaUrl: account.SocialMediaUrl,
+		UserID:         data["userId"],
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"account": response,
 	})
 }

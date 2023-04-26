@@ -34,3 +34,23 @@ func (sms *SocialMediaService) GetAllSocialMedia(userId uint) ([]models.SocialMe
 
 	return accounts, nil
 }
+
+func (sms *SocialMediaService) GetAccountById(accountId uint) (models.SocialMedia, error) {
+	var account models.SocialMedia
+
+	if err := sms.DB.Where("id = ?", accountId).First(&account).Error; err != nil {
+		return models.SocialMedia{}, err
+	}
+
+	return account, nil
+}
+
+func (sms *SocialMediaService) GetUserIdByAccountId(accountId uint) (uint, error) {
+	var userId uint
+
+	if err := sms.DB.Where("id = ?", accountId).Select("user_id").First(&userId).Error; err != nil {
+		return 0, err
+	}
+
+	return userId, nil
+}
