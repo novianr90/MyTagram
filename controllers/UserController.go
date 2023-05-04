@@ -16,7 +16,7 @@ type UserController struct {
 
 type UserDto struct {
 	Email    string `json:"email" form:"email" binding:"required,email"`
-	Username string `json:"username" form:"username" binding:"required"`
+	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password" binding:"required"`
 	Age      uint   `josn:"age" form:"age"`
 }
