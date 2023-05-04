@@ -17,8 +17,8 @@ type SocialMediaController struct {
 
 type SocialMediaDto struct {
 	ID             uint   `json:"id"`
-	Name           string `json:"name" binding:"required" form:"name"`
-	SocialMediaUrl string `jsonj:"social_media_url" binding:"required" form:"social_media_url"`
+	Name           string `json:"name" form:"name"`
+	SocialMediaUrl string `jsonj:"social_media_url" form:"social_media_url"`
 	UserID         uint   `json:"user_id"`
 }
 
